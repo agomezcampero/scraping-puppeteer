@@ -1,5 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 const crypto = require('crypto');
+
+puppeteer.use(StealthPlugin())
 
 class FalabellaService {
     constructor() {
@@ -19,7 +22,7 @@ class FalabellaService {
                     '--disable-extensions',
                     '--disable-software-rasterizer',
                     '--window-size=1280,800',
-                    '--user-agent=GutenbergScraper/1.0 (+https://github.com/wadewegner/doappplat-puppeteer-sample) Chromium/120.0.0.0'
+                    '--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
                 ],
                 executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
                 defaultViewport: {
