@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bookService = require('./services/bookService');
+const falabellaService = require('./services/falabellaService');
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -69,6 +70,27 @@ app.get('/book/:url(*)', async (req, res) => {
             searchQuery: req.query.query,
             searchPage: req.query.page
         });
+    }
+});
+
+// Falabella authentication endpoint
+app.post('/api/falabella/mabaya_code', async (req, res) => {
+    if (!req.body) {
+        return res.status(400).json({ error: 'Request body is required' });
+    }
+
+    const { email, password } = req.body;
+    
+    try {
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
+
+        const mabayaCode = await falabellaService.mabayaCode(email, password);
+        res.json({ mabayaCode });
+    } catch (error) {
+        console.error('Falabella auth error:', error);
+        res.status(500).json({ error: 'Failed to generate authentication URL' });
     }
 });
 
